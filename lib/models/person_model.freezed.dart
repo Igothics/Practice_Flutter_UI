@@ -109,8 +109,9 @@ class __$$_PersonCopyWithImpl<$Res> extends _$PersonCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Person with DiagnosticableTreeMixin implements _Person {
-  const _$_Person({required this.name, required this.email, required this.age});
+class _$_Person extends _Person with DiagnosticableTreeMixin {
+  const _$_Person({required this.name, required this.email, required this.age})
+      : super._();
 
   factory _$_Person.fromJson(Map<String, dynamic> json) =>
       _$$_PersonFromJson(json);
@@ -168,11 +169,12 @@ class _$_Person with DiagnosticableTreeMixin implements _Person {
   }
 }
 
-abstract class _Person implements Person {
+abstract class _Person extends Person {
   const factory _Person(
       {required final String name,
       required final String email,
       required final int age}) = _$_Person;
+  const _Person._() : super._();
 
   factory _Person.fromJson(Map<String, dynamic> json) = _$_Person.fromJson;
 

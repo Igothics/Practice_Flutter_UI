@@ -6,6 +6,7 @@ part 'person_model.g.dart';
 
 @freezed
 class Person with _$Person {
+  const Person._();
   const factory Person({
     required String name,
     required String email,
@@ -13,4 +14,5 @@ class Person with _$Person {
   }) = _Person;
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+  void sayHello() => debugPrint("Hi! My name is $name");
 }
