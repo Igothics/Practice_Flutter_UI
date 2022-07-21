@@ -1,54 +1,49 @@
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:practice_flutter_ui/animated_params_notifier.dart';
-import 'package:practice_flutter_ui/models/animated_params.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-final animatedParamsNotifierProvider =
-    StateNotifierProvider<AnimatedParamsNotifier, AnimatedParams>(
-        (ref) => AnimatedParamsNotifier());
+final visibleStateProvider = StateProvider((ref) => true);
+final opacityProvider = Provider((ref) => ref.watch(visibleStateProvider) ? 1.0 : 0.0);
 
 class MyApp extends HookConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final params = ref.watch(animatedParamsNotifierProvider);
-    final controller = ref.watch(animatedParamsNotifierProvider.notifier);
+    final visible = ref.watch(visibleStateProvider);
+    final opacityState = ref.watch(opacityProvider);
+    final animationController = useAnimationController(duration: const Duration(seconds: 1));
+
+    void toggleButton() {
+      ref.read(visibleStateProvider.notifier).update((state) => !state);
+      visible ? animationController.forward() : animationController.reverse();
+    }
 
     return MaterialApp(
-      title: "Animate the properties of a container",
+      title: "Animation Practice : Fade a widget in and out",
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.brown,
-          brightness: Brightness.light,
-        ).harmonized(),
-        useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.amber, brightness: Brightness.light,),
+          useMaterial3: true,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Animated Container Practice",
-          ),
+        appBar: AppBar(title: const Text("Fade a widget in and out",),),
+        body: Center(child: AnimatedOpacity(
+          opacity: opacityState,
+          duration: const Duration(seconds: 1),
+          child: Container(width: 120, height: 120, color: Colors.green,),
         ),
-        body: Center(
-          child: AnimatedContainer(
-            duration: const Duration(seconds: 1),
-            width: params.width,
-            height: params.height,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(params.borderRadius),
-                color: controller.getColor()),
-            curve: Curves.ease,
-          ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => controller.randomChange(),
-          child: const Icon(Icons.add,),
+          onPressed: toggleButton,
+          child: AnimatedIcon(
+              icon: AnimatedIcons.add_event,
+              progress: animationController,
+          ),
         ),
       ),
     );
