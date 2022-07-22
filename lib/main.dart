@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,12 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Design Practice : Add a Drawer to a screen",
+      title: "Design Practice : Display a snackBar",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepOrange,
-          brightness: Brightness.light,
-        ),
+          seedColor: Colors.blue,
+          brightness: Brightness.dark,
+        ).harmonized(),
         useMaterial3: true,
       ),
       home: const HomePage(),
@@ -28,38 +29,17 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = List.generate(5,
-      (index) => ListTile(
-        title: Text(
-          "Item $index",
-        ),
-        onTap: () => Navigator.of(context).pop(),
-      ),
+    final snackBar = SnackBar(
+      content: const Text("Yay! A SnackBar!"),
+      action: SnackBarAction(label: "Undo", onPressed: () {}),
     );
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Add a Drawer to a screen",),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            SizedBox(
-              height: 120,
-              child: DrawerHeader(
-                decoration:
-                    BoxDecoration(color: Theme.of(context).primaryColor),
-                child: const Text(
-                  "Drawer Header",
-                ),
-              ),
-            ),
-            ...items,
-          ],
+      appBar: AppBar(title: const Text("Display a snackBar",),),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () => ScaffoldMessenger.of(context).showSnackBar(snackBar),
+          child: const Text("Show Snack Bar",),
         ),
-      ),
-      body: const Center(
-        child: Text("My Page!",),
       ),
     );
   }
