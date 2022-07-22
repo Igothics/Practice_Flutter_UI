@@ -53,24 +53,13 @@ dev_dependencies:
   build_runner: ^2.2.0
   freezed: ^2.1.0+1
   json_serializable: ^6.3.1
+  google_fonts: ^3.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-  fonts:
-    - family: Raleway
-      fonts:
-        - asset: lib/fonts/Raleway-Regular.ttf
-        - asset: lib/fonts/Raleway-Italic.ttf
-          style: italic
-    - family: RobotoMono
-      fonts:
-        - asset: lib/fonts/RobotoMono-Regular.ttf
-        - asset: lib/fonts/RobotoMono-Bold.ttf
-          weight: 700
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
