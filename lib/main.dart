@@ -11,11 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Design Practice : Display a snackBar",
+      title: "Design Practice: Export fonts from a package",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          brightness: Brightness.dark,
+          seedColor: Colors.red,
+          brightness: Brightness.light,
         ).harmonized(),
         useMaterial3: true,
       ),
@@ -29,16 +29,19 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final snackBar = SnackBar(
-      content: const Text("Yay! A SnackBar!"),
-      action: SnackBarAction(label: "Undo", onPressed: () {}),
-    );
     return Scaffold(
-      appBar: AppBar(title: const Text("Display a snackBar",),),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () => ScaffoldMessenger.of(context).showSnackBar(snackBar),
-          child: const Text("Show Snack Bar",),
+      appBar: AppBar(
+        title: const Text(
+          "Export fonts from a package",
+        ),
+      ),
+      body: const Center(
+        child: Text(
+          "Using the Raleway font from the awesome_package",
+          style: TextStyle(
+            fontFamily: 'Raleway',
+            package: 'awsome_package',
+          ),
         ),
       ),
     );
