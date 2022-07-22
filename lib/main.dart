@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Design Practice : Update the UI based on orientation",
+      title: "Design Practice : Use a custom font",
       theme: ThemeData(
+        fontFamily: 'Raleway',
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.pinkAccent,
-            brightness: Brightness.light,
-        ).harmonized(),
+          seedColor: Colors.purple,
+          brightness: Brightness.light,).harmonized(),
         useMaterial3: true,
       ),
       home: const HomePage(),
@@ -30,32 +30,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Update the UI based on orientation",
+      appBar: AppBar(title: const Text("Use a custom font",),),
+      body: const Center(
+        child: Text(
+          "Roboto Mono sample",
+          style: TextStyle(
+            fontStyle: FontStyle.italic,
+            fontFamily: 'RobotoMono',
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-      body: OrientationBuilder(
-        builder: (context, orientation) {
-          final columnCount = orientation == Orientation.portrait ? 2 : 3;
-          return GridView.count(
-            crossAxisCount: columnCount,
-            children: List.generate(
-              100,
-              (index) => Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    "Item $index",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline1,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
       ),
     );
   }
 }
+
