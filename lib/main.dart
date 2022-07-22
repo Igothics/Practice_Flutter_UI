@@ -1,50 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const MyApp());
 }
 
-final visibleStateProvider = StateProvider((ref) => true);
-final opacityProvider = Provider((ref) => ref.watch(visibleStateProvider) ? 1.0 : 0.0);
-
-class MyApp extends HookConsumerWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final visible = ref.watch(visibleStateProvider);
-    final opacityState = ref.watch(opacityProvider);
-    final animationController = useAnimationController(duration: const Duration(seconds: 1));
-
-    void toggleButton() {
-      ref.read(visibleStateProvider.notifier).update((state) => !state);
-      visible ? animationController.forward() : animationController.reverse();
-    }
-
+  Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Animation Practice : Fade a widget in and out",
+      title: "Design Practice : Add a Drawer to a screen",
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.amber, brightness: Brightness.light,),
-          useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepOrange,
+          brightness: Brightness.light,
+        ),
+        useMaterial3: true,
       ),
-      home: Scaffold(
-        appBar: AppBar(title: const Text("Fade a widget in and out",),),
-        body: Center(child: AnimatedOpacity(
-          opacity: opacityState,
-          duration: const Duration(seconds: 1),
-          child: Container(width: 120, height: 120, color: Colors.green,),
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final items = List.generate(5,
+      (index) => ListTile(
+        title: Text(
+          "Item $index",
         ),
+        onTap: () => Navigator.of(context).pop(),
+      ),
+    );
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Add a Drawer to a screen",),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            SizedBox(
+              height: 120,
+              child: DrawerHeader(
+                decoration:
+                    BoxDecoration(color: Theme.of(context).primaryColor),
+                child: const Text(
+                  "Drawer Header",
+                ),
+              ),
+            ),
+            ...items,
+          ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: toggleButton,
-          child: AnimatedIcon(
-              icon: AnimatedIcons.add_event,
-              progress: animationController,
-          ),
-        ),
+      ),
+      body: const Center(
+        child: Text("My Page!",),
       ),
     );
   }
