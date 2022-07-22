@@ -11,11 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Design Practice: Export fonts from a package",
+      title: "Design Practice : Update the UI based on orientation",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.red,
-          brightness: Brightness.light,
+            seedColor: Colors.pinkAccent,
+            brightness: Brightness.light,
         ).harmonized(),
         useMaterial3: true,
       ),
@@ -32,17 +32,29 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Export fonts from a package",
+          "Update the UI based on orientation",
         ),
       ),
-      body: const Center(
-        child: Text(
-          "Using the Raleway font from the awesome_package",
-          style: TextStyle(
-            fontFamily: 'Raleway',
-            package: 'awsome_package',
-          ),
-        ),
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          final columnCount = orientation == Orientation.portrait ? 2 : 3;
+          return GridView.count(
+            crossAxisCount: columnCount,
+            children: List.generate(
+              100,
+              (index) => Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    "Item $index",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
