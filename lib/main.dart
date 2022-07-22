@@ -1,9 +1,8 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,18 +11,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Design Practice : Use themes to share colors and font styles",
+      title: "Design Practice : Work with tabs",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.lightBlue,
-          brightness: Brightness.dark,
-        ),
+          seedColor: Colors.pinkAccent,
+          brightness: Brightness.light,
+        ).harmonized(),
         useMaterial3: true,
-        fontFamily: GoogleFonts.notoSansGeorgian().fontFamily,
-        textTheme: TextTheme(
-          headline1: const TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
-          headline6: const TextStyle(fontSize: 36, fontStyle: FontStyle.italic),
-          bodyText2: TextStyle(fontSize: 14, fontFamily: GoogleFonts.hind().fontFamily),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.pinkAccent,
+          foregroundColor: Colors.white,
         ),
       ),
       home: const HomePage(),
@@ -36,29 +33,36 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Custom Theme",
-        ),
-      ),
-      body: Center(
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          color: theme.colorScheme.secondary,
-          child: Text(
-            "Text with a background color",
-            style: theme.textTheme.headline6,
+    final iconColor = Theme.of(context).colorScheme.surfaceVariant;
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Tab Demo",
           ),
+          bottom: const TabBar(
+              tabs: [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.directions_car,),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.directions_transit,),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.directions_bike,),
+                ),
+          ]),
         ),
-      ),
-      floatingActionButton: Theme(
-        data: theme.copyWith(splashColor: Colors.yellow),
-        child: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.add),
-        ),
+        body: TabBarView(
+            children: [
+              Icon(Icons.directions_car, size: 120, color: iconColor,),
+              Icon(Icons.directions_transit, size: 120, color: iconColor,),
+              Icon(Icons.directions_bike, size: 120, color: iconColor,),
+        ]),
       ),
     );
   }
